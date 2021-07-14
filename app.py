@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -13,14 +14,15 @@ db = SQLAlchemy(app)
 
 class Crypto(db.Model):
 
-    __tablename__ = 'crypto'
+    __tablename__ = 'crypto-sentiment-analysis'
 
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(300))
+    date = db.Column(db.Date(), primary_key=True)
+    sentiment = db.Column(db.Float())
 
-    def __init__(self, body):
+    def __init__(self, date, sentiment):
 
-        self.body = body
+        self.date = date
+        self.sentiment = sentiment
 
 
 @app.route('/')
@@ -30,7 +32,7 @@ def hello_world():
 
 @app.route('/posty')
 def posty():
-    data = Crypto('this is some text')
+    data = Crypto(datetime.date.today(), 0.364)
     db.session.add(data)
     db.session.commit()
     return jsonify({'yes': 'success'})
