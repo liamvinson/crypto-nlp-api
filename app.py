@@ -30,12 +30,13 @@ def hello_world():
     return jsonify({'name': 'Liam!'})
 
 
-@app.route('/posty')
-def posty():
-    data = Crypto(datetime.date.today(), 0.364)
-    db.session.add(data)
-    db.session.commit()
-    return jsonify({'yes': 'success'})
+@app.route('/access-data')
+def access_data():
+
+    query = db.session.query(Crypto).all()
+    data = [{"date": crypto.date.isoformat(), "sentiment": crypto.sentiment} for crypto in query]
+
+    return jsonify({"data": data})
 
 
 if __name__ == '__main__':
