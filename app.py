@@ -1,28 +1,15 @@
 import os
-import datetime
 
 from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from database import db, Crypto
+
 
 app = Flask(__name__)
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-
-
-class Crypto(db.Model):
-
-    __tablename__ = 'crypto-sentiment-analysis'
-
-    date = db.Column(db.Date(), primary_key=True)
-    sentiment = db.Column(db.Float())
-
-    def __init__(self, date, sentiment):
-
-        self.date = date
-        self.sentiment = sentiment
+db.init_app(app)
 
 
 @app.route('/')
