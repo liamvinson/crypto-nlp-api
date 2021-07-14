@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, jsonify
-from database import db, get_data, get_dates
+from database import db, get_data, get_dates, insert_data
 from data_scraper import get_new_data
 
 app = Flask(__name__)
@@ -31,6 +31,8 @@ def update_data():
     dates = get_dates(db)
 
     data = get_new_data(dates)
+
+    insert_data(db, data)
 
     return jsonify({"data": data})
 

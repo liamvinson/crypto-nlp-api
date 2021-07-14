@@ -142,8 +142,6 @@ def process_submissions(df):
 
         submission_data.append((date, sentiment))
 
-        break
-
     return submission_data
 
 
