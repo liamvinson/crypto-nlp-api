@@ -3,6 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+#
+#   Database Models
+#
+
+
 class Crypto(db.Model):
 
     __tablename__ = 'crypto-sentiment-analysis'
@@ -14,3 +19,24 @@ class Crypto(db.Model):
 
         self.date = date
         self.sentiment = sentiment
+
+
+#
+#   Database Access Functions
+#
+
+
+def get_data(database):
+
+    query = database.session.query(Crypto).all()
+    data = [{"date": crypto.date.isoformat(), "sentiment": crypto.sentiment} for crypto in query]
+
+    return data
+
+
+def get_dates(database):
+
+    query = database.session.query(Crypto).all()
+    dates = [crypto.date for crypto in query]
+
+    return dates

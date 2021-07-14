@@ -1,8 +1,7 @@
 import os
 
 from flask import Flask, jsonify
-from database import db, Crypto
-
+from database import db, get_data
 
 app = Flask(__name__)
 
@@ -20,8 +19,7 @@ def hello_world():
 @app.route('/access-data')
 def access_data():
 
-    query = db.session.query(Crypto).all()
-    data = [{"date": crypto.date.isoformat(), "sentiment": crypto.sentiment} for crypto in query]
+    data = get_data(db)
 
     return jsonify({"data": data})
 
