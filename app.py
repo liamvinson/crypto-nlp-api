@@ -1,8 +1,7 @@
 import os
 
 from flask import Flask, jsonify
-from database import db, get_data, get_dates, insert_data
-from data_scraper import get_new_data
+from database import db, get_data
 
 app = Flask(__name__)
 
@@ -21,18 +20,6 @@ def hello_world():
 def access_data():
 
     data = get_data(db)
-
-    return jsonify({"data": data})
-
-
-@app.route('/update-data')
-def update_data():
-
-    dates = get_dates(db)
-
-    data = get_new_data(dates)
-
-    insert_data(db, data)
 
     return jsonify({"data": data})
 

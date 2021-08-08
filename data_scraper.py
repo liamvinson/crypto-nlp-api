@@ -19,12 +19,14 @@ def filter_existing_submissions(df, dates):
 
 
 def get_submissions(dates=None):
+
     # Request all comments from submission.
     url = 'https://api.pushshift.io/reddit/search/submission/'
     params = {
         'subreddit': 'CryptoCurrency',
         'size': 300,
         'title': 'Daily Discussion - ',
+        'before': '2d', 'after': '10d',
         # 'before': '30d', 'after': '2y', todo use these to query all posts.
     }
     response = requests.get(url, params)
@@ -43,14 +45,17 @@ def get_submissions(dates=None):
 
     return df
 
-
 def clean_submission_data(df):
+
     # Filter for specific columns from the data.
     column_filter = ['id', 'title']
     df = df[column_filter]
 
     # Filter related search results.
     deleted_filter = df.title.str.startswith('Daily Discussion -')
+    df = df[deleted_filter]
+
+    deleted_filter = df.title.str.endswith('(GMT+0)')
     df = df[deleted_filter]
 
     # Add date column from title string.
