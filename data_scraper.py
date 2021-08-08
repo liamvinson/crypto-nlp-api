@@ -129,6 +129,8 @@ def process_submission(submission_id):
     df = sentiment_analysis(df)
     subjectivity = df.subjectivity.mean()
 
+    print('Inside function', subjectivity)
+
     return subjectivity
 
 
