@@ -19,7 +19,6 @@ def filter_existing_submissions(df, dates):
 
 
 def get_submissions(dates=None):
-
     # Request all comments from submission.
     url = 'https://api.pushshift.io/reddit/search/submission/'
     params = {
@@ -45,8 +44,8 @@ def get_submissions(dates=None):
 
     return df
 
-def clean_submission_data(df):
 
+def clean_submission_data(df):
     # Filter for specific columns from the data.
     column_filter = ['id', 'title']
     df = df[column_filter]
@@ -153,7 +152,6 @@ def process_submissions(df):
 
 
 def get_new_data(dates):
-
     df = get_submissions(dates)
     data = process_submissions(df)
 

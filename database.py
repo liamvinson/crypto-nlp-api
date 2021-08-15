@@ -46,7 +46,7 @@ def insert_data(database, data):
 
     for date, sentiment in data:
 
-        if database.session.query(Crypto).filter(Crypto.date == date).count() ==0:
+        if database.session.query(Crypto).filter(Crypto.date == date).count() == 0:
             data = Crypto(date, sentiment)
             db.session.add(data)
             db.session.commit()

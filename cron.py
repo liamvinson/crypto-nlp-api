@@ -1,5 +1,10 @@
-from data_scraper import process_submission
+import datetime
+
 from apscheduler.schedulers.blocking import BlockingScheduler
+from data_scraper import process_submissions, get_submissions
+from database import insert_data
+from app import db
+
 
 sched = BlockingScheduler()
 
@@ -7,12 +12,13 @@ sched = BlockingScheduler()
 print('Starting cron scheduler.')
 
 
-@sched.scheduled_job('interval', minutes=3)
+@sched.scheduled_job('interval', minutes=30)
 def timed_job():
-    print('This job is run every three minutes.')
+    print('Running crypto nlp update.')
 
-    res = process_submission('oxgbs8')
-    print(res)
+    df = get_submissions([datetime.date.today()])
+    data = process_submissions(df)
+    insert_data(db, data)
 
 
 sched.start()
